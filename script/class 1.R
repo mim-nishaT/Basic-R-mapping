@@ -6,12 +6,14 @@ library(ggplot2)
 library(tidyverse)
 library(dplyr)
 
+#menual map adding from BGD file or local data
+U_map <- read_sf("CopyOfBGD_adm/BGD_adm1_prj.shp")
 
-class <- read_sf("C:\\Users\\estie\\OneDrive\\Documents\\ArcGIS\\union\\upozilla\\upazila.shp")
-
+#visualize map
 ggplot()+
-  geom_sf(data=class)
+  geom_sf(data= U_map)
 
+#universal update data package
 library(giscoR)
 
 bangladesh <- gisco_get_countries(
@@ -26,14 +28,37 @@ ggplot()+
 
 
 
-
+#another universal data package geodata
+library(geodata)
 bangladesh <- gadm(
   country = "BD",
   level = 2,
   path = getwd()
 )|>
   st_as_sf()
-ctg <- bangladesh %>%
+#country visualize
+ggplot()+
+  geom_sf(data = bangladesh)
+
+#division visualize
+head(bangladesh)
+
+ggplot()+
+  geom_sf(data = bangladesh)+
+  geom_sf_text(data = bangladesh, aes(label = NAME_1))
+
+#district visualize
+ggplot()+
+  geom_sf(data = bangladesh)+
+  geom_sf_text(data = bangladesh, aes(label = NAME_2))
+
+#or 
+ggplot()+
+  geom_sf(data = bangladesh)+
+  geom_sf_label(data = bangladesh, aes(label = NAME_2))
+
+
+ctg <- bangladesh |> 
   filter(NAME_1=="Barisal")
 
 ggplot()+
