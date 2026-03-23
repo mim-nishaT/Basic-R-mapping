@@ -57,7 +57,7 @@ ggplot()+
   geom_sf(data = bangladesh)+
   geom_sf_label(data = bangladesh, aes(label = NAME_2))
 
-
+#specific division
 ctg <- bangladesh |> 
   filter(NAME_1=="Barisal")
 
